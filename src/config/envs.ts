@@ -1,11 +1,12 @@
 import 'dotenv/config';
 import * as joi from 'joi';
-import { ProductsController } from 'src/products/products.controller';
 
 interface EnvVars {
   PORT: number;
   PRODUCTS_SERVICE_HOST: string;
   PRODUCTS_SERVICE_PORT: number;
+  ORDER_SERVICE_HOST: string;
+  ORDER_SERVICE_PORT: number;
 }
 
 const envsSchema = joi
@@ -13,6 +14,8 @@ const envsSchema = joi
     PORT: joi.number().required(),
     PRODUCTS_SERVICE_HOST: joi.string().required(),
     PRODUCTS_SERVICE_PORT: joi.number().required(),
+    ORDER_SERVICE_HOST: joi.string().required(),
+    ORDER_SERVICE_PORT: joi.number().required(),
   })
   .unknown(true);
 
@@ -28,4 +31,6 @@ export const envs = {
   port: envVars.PORT,
   productsMicroserviceHost: envVars.PRODUCTS_SERVICE_HOST,
   ProductsMicroservicePort: envVars.PRODUCTS_SERVICE_PORT,
+  OrdersMicroserviceHost: envVars.ORDER_SERVICE_HOST,
+  OrdersMicroservicePort: envVars.ORDER_SERVICE_PORT,
 };
