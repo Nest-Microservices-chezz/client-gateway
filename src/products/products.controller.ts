@@ -19,21 +19,21 @@ import { NATS_SERVICE } from 'src/config';
 
 @Controller('products')
 export class ProductsController {
-  constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
+  constructor(@Inject(NATS_SERVICE) private readonly transportClient: ClientProxy) {}
 
   @Post()
   createProduct(@Body() createProductDto: CreateProductDto) {
-    return this.natsClient.send({ cmd: 'create_product' }, createProductDto);
+    return this.transportClient.send({ cmd: 'create_product' }, createProductDto);
   }
 
   @Get()
   findAllProducts(@Query() paginationDto: PaginationDto) {
-    return this.natsClient.send({ cmd: 'find_all_products' }, paginationDto);
+    return this.transportClient.send({ cmd: 'find_all_products' }, paginationDto);
   }
 
   @Get(':id')
   async findOneProducts(@Param('id') id: string) {
-    return this.natsClient.send({ cmd: 'find_one_product' }, { id }).pipe(
+    return this.transportClient.send({ cmd: 'find_one_product' }, { id }).pipe(
       catchError((err) => {
         throw new RpcException(err);
       }),
@@ -42,7 +42,7 @@ export class ProductsController {
 
   @Delete(':id')
   deleteProduct(@Param('id') id: string) {
-    return this.natsClient.send({ cmd: 'delete_product' }, { id }).pipe(
+    return this.transportClient.send({ cmd: 'delete_product' }, { id }).pipe(
       catchError((err) => {
         throw new RpcException(err);
       }),
@@ -54,7 +54,7 @@ export class ProductsController {
     @Param('id', ParseIntPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    return this.natsClient
+    return this.transportClient
       .send({ cmd: 'update_product' }, { id, ...updateProductDto })
       .pipe(
         catchError((err) => {
