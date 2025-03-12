@@ -11,12 +11,12 @@ export class AuthController {
 
   @Post('register')
   registerUser(@Body() registerUserDto: RegisterUserDto) {
-    return this.transportClient.send('auth.register.user', {});
+    return this.transportClient.send('auth.register.user', registerUserDto);
   }
 
   @Post('login')
   loginUser(@Body() loginUserDto: LoginUserDto) {
-    return this.transportClient.send('auth.login.user', {});
+    return this.transportClient.send('auth.login.user', loginUserDto);
   }
 
   @Get('verify')
